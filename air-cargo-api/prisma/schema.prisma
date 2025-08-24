@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BookingStatus {
+  BOOKED
+  DEPARTED
+  ARRIVED
+  DELIVERED
+  CANCELLED
+}
+
+enum EventType {
+  BOOKING_CREATED
+  DEPARTURE
+  ARRIVAL
+  DELIVERY
+  CANCELLATION
+}
+
+model Flight {
+  id              String   @id @default(cuid())
+  flightNumber    String   @unique
+  airlineName     String
+  origin          String
+  destination     String
+  departureTime   DateTime
+  arrivalTime     DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  bookingEvents   BookingEvent[]
+
+  @@map("flights")
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  refId         String        @unique
+  origin        String
+  destination   String
+  pieces        Int
+  weightKg      Int
+  status        BookingStatus @default(BOOKED)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  events        BookingEvent[]
+
+  @@map("bookings")
+}
+
+model BookingEvent {
+  id          String    @id @default(cuid())
+  bookingId   String
+  eventType   EventType
+  location    String?
+  flightId    String?
+  notes       String?
+  createdAt   DateTime  @default(now())
+
+  booking     Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  flight      Flight?   @relation(fields: [flightId], references: [id])
+
+  @@map("booking_events")
+}
