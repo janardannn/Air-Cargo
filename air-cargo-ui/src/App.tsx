@@ -4,6 +4,7 @@ import SearchBooking from './pages/SearchBooking';
 import BookingDetail from './pages/BookingDetail';
 import ManageBookingSearch from './pages/ManageBookingSearch';
 import ManageBookingDetail from './pages/ManageBookingDetail';
+import AllBookings from './pages/AllBookings';
 import './index.css';
 import { useEffect } from 'react';
 
@@ -44,6 +45,12 @@ function App() {
                       Search Booking
                     </Link>
                     <Link
+                      to="/bookings"
+                      className="text-gray-500 inline-flex items-center px-1 pt-1 text-sm font-medium hover:text-primary-600 transition-colors"
+                    >
+                      All Bookings
+                    </Link>
+                    <Link
                       to="/manage"
                       className="text-red-600 inline-flex items-center px-1 pt-1 text-sm font-medium hover:text-red-800 transition-colors"
                     >
@@ -60,6 +67,7 @@ function App() {
           <Routes>
             <Route path="/" element={<CreateBooking />} />
             <Route path="/search" element={<SearchBooking />} />
+            <Route path="/bookings" element={<AllBookings />} />
             <Route path="/booking/:refId" element={<BookingDetail />} />
             <Route path="/manage" element={<ManageBookingSearch />} />
             <Route path="/manage/:refId" element={<ManageBookingDetail />} />

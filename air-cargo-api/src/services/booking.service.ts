@@ -1,8 +1,8 @@
 import { PrismaClient, Booking, BookingStatus, EventType } from '@prisma/client';
-import { redisClient } from '../app.js';
-import logger from '../utils/logger.js';
+import { redisClient } from '../app';
+import logger from '../utils/logger';
+import { prisma } from "../app"
 
-const prisma = new PrismaClient();
 
 interface CreateBookingData {
     origin: string;

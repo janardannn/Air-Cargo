@@ -2,9 +2,9 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import { redisClient } from '../app';
 import logger from '../utils/logger';
+import { prisma } from '../app';
 
 const router = express.Router();
-const prisma = new PrismaClient();
 
 // Get all flights
 router.get('/', async (req, res) => {
